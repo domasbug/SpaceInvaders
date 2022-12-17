@@ -1,10 +1,9 @@
 package lt.dkrasuckis.gamdev.Classes;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.KeyEvent;
 
-public class Player extends Object {
+public class Player extends GameObject {
     private int width;
     private ImageIcon playerImage = new ImageIcon("src/assets/player.png");
 

@@ -2,7 +2,7 @@ package lt.dkrasuckis.gamdev.Classes;
 
 import javax.swing.*;
 
-public class Shield extends Object{
+public class Shield extends GameObject {
     int H_SPACE = 4;
     int V_SPACE = 4;
 

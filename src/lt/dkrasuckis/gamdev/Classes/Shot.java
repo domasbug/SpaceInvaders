@@ -2,7 +2,7 @@ package lt.dkrasuckis.gamdev.Classes;
 
 import javax.swing.*;
 
-public class Shot extends Object{
+public class Shot extends GameObject {
 
     int H_SPACE = 6;
     int V_SPACE = 1;

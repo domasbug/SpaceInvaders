@@ -1,6 +1,9 @@
 package lt.dkrasuckis.gamdev;
 
 import lt.dkrasuckis.gamdev.Classes.*;
+import lt.dkrasuckis.gamdev.Classes.Aliens.GreenAlien;
+import lt.dkrasuckis.gamdev.Classes.Aliens.RedAlien;
+import lt.dkrasuckis.gamdev.Classes.Aliens.WhiteAlien;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,7 +34,7 @@ public class Game extends JPanel {
     int GO_DOWN = 15;
     int NUMBER_OF_ALIENS_TO_DESTROY = 0;
     int CHANCE = 10;
-    int DELAY = 1;
+    int DELAY = 10;
     int PLAYER_WIDTH = 60;
     int PLAYER_HEIGHT = 30;
     int PLAYER_CANNON_OFFSET = 7;
@@ -74,10 +77,19 @@ public class Game extends JPanel {
 
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 7; j++) {
-
-                Alien alien = new Alien(ALIEN_INIT_X + ALIEN_WIDTH + 70 * j,
-                        ALIEN_INIT_Y + ALIEN_HEIGHT + 70 * i);
-                aliens.add(alien);
+                if(i == 0) {
+                    GreenAlien alien = new GreenAlien(ALIEN_INIT_X + ALIEN_WIDTH + 70 * j,
+                            ALIEN_INIT_Y + ALIEN_HEIGHT + 70 * i);
+                    aliens.add(alien);
+                }else if(i == 1) {
+                    RedAlien alien = new RedAlien(ALIEN_INIT_X + ALIEN_WIDTH + 70 * j,
+                            ALIEN_INIT_Y + ALIEN_HEIGHT + 70 * i);
+                    aliens.add(alien);
+                }else{
+                    WhiteAlien alien = new WhiteAlien(ALIEN_INIT_X + ALIEN_WIDTH + 70 * j,
+                            ALIEN_INIT_Y + ALIEN_HEIGHT + 70 * i);
+                    aliens.add(alien);
+                }
                 NUMBER_OF_ALIENS_TO_DESTROY++;
             }
         }
@@ -85,16 +97,20 @@ public class Game extends JPanel {
         player = new Player(BOARD_WIDTH/2 - 60, GROUND-40);
 
         //Shield
-        //TODO: Padaryti gražesni ir naudingesni skydą
         int coordX = 100;
         for(int i = 0; i < 3; i++){
             ArrayList<Shield> shield = new ArrayList<>();
             for(int j = 0; j < 20; j++){
-                //shield.add(new Shield(coordX+(4*j), GROUND-90));
-                //shield.add(new Shield(coordX+(4*j), GROUND-95));
-                shield.add(new Shield(coordX+(4*j), GROUND-100));
-                shield.add(new Shield(coordX+(4*j), GROUND-105));
-                shield.add(new Shield(coordX+(4*j), GROUND-110));
+                for(int k = 0; k < 6; k++) {
+                    if( (j == 9 || j == 10 || j == 8 || j == 11 || j == 7 || j == 12) && (k == 0 || k == 1) ) {
+                        continue;
+                    }
+
+                    if( (j == 0 || j == 19) && k == 5){
+                        continue;
+                    }
+                    shield.add(new Shield(coordX + (4 * j), GROUND - (100 + k*5)));
+                }
             }
             coordX += 230;
             shields.add(shield);
@@ -133,7 +149,7 @@ public class Game extends JPanel {
                         ImageIcon ii = new ImageIcon(explImg);
                         alien.setImage(ii.getImage());
                         alien.setDying(true);
-                        score += 10;
+                        score += alien.getScoreToAdd();
                         destroyedShips++;
                         shot.die();
                     }
@@ -224,7 +240,7 @@ public class Game extends JPanel {
             int shot = generator.nextInt(100);
             Bomb bomb = alien.getBomb();
 
-            if (shot == CHANCE && alien.isVisible() && bomb.isDestroyed() && bombsCounter < 5) {
+            if (shot < alien.getAttackChance() && alien.isVisible() && bomb.isDestroyed() && bombsCounter < 6) {
                 bombsCounter++;
                 bomb.setDestroyed(false);
                 bomb.setX(alien.getX());
@@ -449,6 +465,14 @@ public class Game extends JPanel {
                 }
             }
         }
+    }
+
+    public ArrayList<Alien> getAliens() {
+        return aliens;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }
 

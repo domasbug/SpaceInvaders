@@ -2,7 +2,7 @@ package lt.dkrasuckis.gamdev.Classes;
 
 import javax.swing.*;
 
-public class Bomb extends Object{
+public class Bomb extends GameObject implements Destructible {
     private boolean destroyed;
 
     public Bomb(int x, int y) {
@@ -19,10 +19,12 @@ public class Bomb extends Object{
         setImage(ii.getImage());
     }
 
+    @Override
     public void setDestroyed(boolean destroyed) {
         this.destroyed = destroyed;
     }
 
+    @Override
     public boolean isDestroyed() {
         return destroyed;
     }

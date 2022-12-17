@@ -1,27 +1,28 @@
 package lt.dkrasuckis.gamdev.Classes;
 
-import javax.swing.*;
+public abstract class Alien extends GameObject {
+    protected Bomb bomb;
+    protected String alienImg;
+    protected int scoreToAdd;
+    protected int attackChance;
 
-public class Alien extends Object{
-    private Bomb bomb;
+    protected abstract void createInstance(int x, int y);
 
-    public Alien(int x, int y) {
-        this.x = x;
-        this.y = y;
-
-        bomb = new Bomb(x, y-1);
-        //TODO: Pridėti daugiau ateivių
-        String alienImg = "src/assets/alien.png";
-        ImageIcon ii = new ImageIcon(alienImg);
-
-        setImage(ii.getImage());
-    }
-
-    public void move(int direction) {
-        this.x += direction;
-    }
+    public abstract void move(int direction);
 
     public Bomb getBomb() {
         return bomb;
+    }
+
+    public String getAlienImg() {
+        return alienImg;
+    }
+
+    public int getScoreToAdd(){
+        return scoreToAdd;
+    }
+
+    public int getAttackChance(){
+        return attackChance;
     }
 }
